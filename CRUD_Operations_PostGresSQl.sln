@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD_Operations_PostGresSQl", "CRUD_Operations_PostGresSQl\CRUD_Operations_PostGresSQl.csproj", "{545F2132-72D1-40E0-BA79-5FBD853BC200}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{545F2132-72D1-40E0-BA79-5FBD853BC200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{545F2132-72D1-40E0-BA79-5FBD853BC200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{545F2132-72D1-40E0-BA79-5FBD853BC200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{545F2132-72D1-40E0-BA79-5FBD853BC200}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50734B89-E3DB-45A2-B764-D467DB5AE2BA}
+	EndGlobalSection
+EndGlobal
