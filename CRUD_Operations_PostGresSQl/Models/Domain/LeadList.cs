@@ -6,7 +6,10 @@ namespace CRUD_Operations_PostGresSQl.Models.Domain
     {
         [Key]
         public Guid LeadId { get; set; }
-        public string LeadFullName { get; set; }
+
+        public string LeadLastName { get; set; }
+        public string LeadFirstName { get; set; }
+        public string LeadMiddleName { get; set; }
         public string LeadContactNumber { get; set; }
         public string LeadEmail { get; set; }
         public string LeadLoanType { get; set; }

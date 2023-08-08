@@ -132,7 +132,9 @@ namespace CRUD_Operations_PostGresSQl.Repository
                 return null;
             }
 
-            exsistingLead.LeadFullName = leadList.LeadFullName;
+            exsistingLead.LeadFirstName = leadList.LeadFirstName;
+            exsistingLead.LeadLastName = leadList.LeadLastName;
+            exsistingLead.LeadMiddleName = leadList.LeadMiddleName;
             exsistingLead.LeadContactNumber = leadList.LeadContactNumber;
             exsistingLead.LeadEmail = leadList.LeadEmail;
             exsistingLead.LeadLoanType = leadList.LeadLoanType;

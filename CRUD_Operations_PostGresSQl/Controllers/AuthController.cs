@@ -36,10 +36,9 @@ namespace CRUD_Operations_PostGresSQl.Controllers
             {
                 if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
                 {
-                    foreach (var role in registerRequestDto.Roles)
-                    {
-                        identityResult = await userManager.AddToRoleAsync(identityUser, role);
-                    }
+
+                    identityResult = await userManager.AddToRoleAsync(identityUser, registerRequestDto.Roles);
+
 
                     if (identityResult.Succeeded)
                     {
@@ -71,18 +70,23 @@ namespace CRUD_Operations_PostGresSQl.Controllers
                         {
                             new Claim(ClaimTypes.Name, user.UserName),
                             new Claim(ClaimTypes.Email, user.UserName),
+                            new Claim(ClaimTypes.Role,Roles[0])
                         };
-                        foreach (var role in Roles)
-                        {
-                            claims.Add(new Claim(ClaimTypes.Role, role));
-                        }
+                        //foreach (var role in Roles)
+                        //{
+                        //    claims.Add(new Claim(ClaimTypes.Role, role));
+                        //}
                         var claimsIdentity = new ClaimsIdentity(claims, "Login");
 
                         await HttpContext.SignInAsync(
                             CookieAuthenticationDefaults.AuthenticationScheme,
                             new ClaimsPrincipal(claimsIdentity));
 
-                        return Ok(new { Message = "You are logged in" });
+                        return Ok(new
+                        {
+                            Name = loginRequestDto.UserName,
+                            Role = Roles[0]
+                        });
                     }
                 }
             }

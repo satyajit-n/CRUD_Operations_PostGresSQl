@@ -70,7 +70,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.HasKey("ApplicantID");
 
-                    b.ToTable("ApplicantsCreateEntries");
+                    b.ToTable("ApplicantsCreateEntries", (string)null);
                 });
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.EntitlementTable", b =>
@@ -93,7 +93,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.HasIndex("RoleRefId");
 
-                    b.ToTable("EntitlementTables");
+                    b.ToTable("EntitlementTables", (string)null);
 
                     b.HasData(
                         new
@@ -159,7 +159,11 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("LeadFullName")
+                    b.Property<string>("LeadFirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadLastName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -169,6 +173,10 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.Property<bool>("LeadMarkedForReview")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("LeadMiddleName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("LeadProductType")
                         .IsRequired()
@@ -180,7 +188,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.HasKey("LeadId");
 
-                    b.ToTable("Leads");
+                    b.ToTable("Leads", (string)null);
                 });
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.Menu", b =>
@@ -197,7 +205,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menus", (string)null);
 
                     b.HasData(
                         new
@@ -236,7 +244,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -275,7 +283,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.EntitlementTable", b =>

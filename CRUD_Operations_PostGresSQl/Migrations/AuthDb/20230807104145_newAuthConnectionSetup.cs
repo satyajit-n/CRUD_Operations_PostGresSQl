@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRUD_Operations_PostGresSQl.Migrations.AuthDb
 {
     /// <inheritdoc />
-    public partial class AddingAuthDatabase : Migration
+    public partial class newAuthConnectionSetup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

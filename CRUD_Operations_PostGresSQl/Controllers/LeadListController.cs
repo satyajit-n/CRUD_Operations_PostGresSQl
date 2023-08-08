@@ -62,7 +62,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
             [FromQuery] string? filterOn,
             [FromQuery] string? filterQuery,
             [FromQuery] bool? isAscending,
-            [FromQuery] string sortBy = "LeadFullName",
+            [FromQuery] string sortBy = "LeadFirstName",
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10)
         {

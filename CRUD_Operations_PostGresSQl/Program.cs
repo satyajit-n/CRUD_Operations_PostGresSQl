@@ -52,7 +52,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {
         options.SlidingExpiration = false;
-        options.ExpireTimeSpan = new TimeSpan(0, 10, 0);
+        //options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        //DateTime expirationDateTime = DateTime.UtcNow.AddMinutes(10);
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnSigningIn = context =>
+            {
+                DateTime expirationDateTime = DateTime.UtcNow.AddMinutes(5);
+                // Set the expiration datetime for the cookie
+                context.CookieOptions.Expires = expirationDateTime;
+                
+
+                return Task.CompletedTask;
+            }
+        };
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.Name = "AuthCookie";
+        //options.ExpireTimeSpan = expirationDateTime;
     });
 
 builder.Services.AddScoped<IUserRepository, PGUserRepository>();

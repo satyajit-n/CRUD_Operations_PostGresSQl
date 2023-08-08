@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRUD_Operations_PostGresSQl.Migrations
 {
     [DbContext(typeof(CrudDbContext))]
-    [Migration("20230804105120_insertToEntitlement")]
-    partial class insertToEntitlement
+    [Migration("20230807121610_DatabaseUpdates")]
+    partial class DatabaseUpdates
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,7 +162,11 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("LeadFullName")
+                    b.Property<string>("LeadFirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadLastName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -172,6 +176,10 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
                     b.Property<bool>("LeadMarkedForReview")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("LeadMiddleName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("LeadProductType")
                         .IsRequired()

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRUD_Operations_PostGresSQl.Migrations.AuthDb
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20230801080409_AddingAuthDatabase")]
-    partial class AddingAuthDatabase
+    [Migration("20230807104145_newAuthConnectionSetup")]
+    partial class newAuthConnectionSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

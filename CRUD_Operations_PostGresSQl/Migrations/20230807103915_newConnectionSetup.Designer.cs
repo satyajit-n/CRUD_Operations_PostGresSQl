@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRUD_Operations_PostGresSQl.Migrations
 {
     [DbContext(typeof(CrudDbContext))]
-    [Migration("20230804102052_AddingRolesagain")]
-    partial class AddingRolesagain
+    [Migration("20230807103915_newConnectionSetup")]
+    partial class newConnectionSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,67 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                     b.HasKey("ApplicantID");
 
                     b.ToTable("ApplicantsCreateEntries");
+                });
+
+            modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.EntitlementTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MenuRefId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleRefId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuRefId");
+
+                    b.HasIndex("RoleRefId");
+
+                    b.ToTable("EntitlementTables");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 101,
+                            MenuRefId = 100,
+                            RoleRefId = 1
+                        },
+                        new
+                        {
+                            Id = 102,
+                            MenuRefId = 200,
+                            RoleRefId = 1
+                        },
+                        new
+                        {
+                            Id = 103,
+                            MenuRefId = 300,
+                            RoleRefId = 1
+                        },
+                        new
+                        {
+                            Id = 104,
+                            MenuRefId = 400,
+                            RoleRefId = 1
+                        },
+                        new
+                        {
+                            Id = 105,
+                            MenuRefId = 300,
+                            RoleRefId = 2
+                        },
+                        new
+                        {
+                            Id = 106,
+                            MenuRefId = 400,
+                            RoleRefId = 2
+                        });
                 });
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.LeadList", b =>
@@ -218,6 +279,25 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.EntitlementTable", b =>
+                {
+                    b.HasOne("CRUD_Operations_PostGresSQl.Models.Domain.Menu", "Menu")
+                        .WithMany()
+                        .HasForeignKey("MenuRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRUD_Operations_PostGresSQl.Models.Domain.Roles", "Roles")
+                        .WithMany()
+                        .HasForeignKey("RoleRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

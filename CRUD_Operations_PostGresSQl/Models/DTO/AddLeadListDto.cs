@@ -6,7 +6,13 @@ namespace CRUD_Operations_PostGresSQl.Models.DTO
     {
         [Required]
         [MaxLength(100, ErrorMessage = "Name has to be maximum of 100 characters")]
-        public string LeadFullName { get; set; }
+        public string LeadLastName { get; set; }
+        [Required]
+        [MaxLength(100, ErrorMessage = "Name has to be maximum of 100 characters")]
+        public string LeadFirstName { get; set; }
+        [Required]
+        [MaxLength(100, ErrorMessage = "Name has to be maximum of 100 characters")]
+        public string LeadMiddleName { get; set; }
         [Required]
         [RegularExpression(@"^(\d{10})$", ErrorMessage = "Mobile no not valid")]
         public string LeadContactNumber { get; set; }
