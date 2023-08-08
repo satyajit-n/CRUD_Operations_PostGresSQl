@@ -72,11 +72,8 @@ namespace CRUD_Operations_PostGresSQl.Controllers
                             new Claim(ClaimTypes.Email, user.UserName),
                             new Claim(ClaimTypes.Role,Roles[0])
                         };
-                        //foreach (var role in Roles)
-                        //{
-                        //    claims.Add(new Claim(ClaimTypes.Role, role));
-                        //}
-                        var claimsIdentity = new ClaimsIdentity(claims, "Login");
+
+                        var claimsIdentity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
 
                         await HttpContext.SignInAsync(
                             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -84,7 +81,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
 
                         return Ok(new
                         {
-                            Name = loginRequestDto.UserName,
+                            loginRequestDto.UserName,
                             Role = Roles[0]
                         });
                     }

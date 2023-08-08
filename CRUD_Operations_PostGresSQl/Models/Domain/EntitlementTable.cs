@@ -15,5 +15,9 @@ namespace CRUD_Operations_PostGresSQl.Models.Domain
         [ForeignKey("Roles")]
         public int RoleRefId { get; set; }
         public Roles Roles { get; set; }
+
+        [ForeignKey("ActionTable")]
+        public int ActionId { get; set; }
+        public ActionTable ActionTable { get; set; }
     }
 }
