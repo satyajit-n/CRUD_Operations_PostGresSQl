@@ -25,69 +25,103 @@ namespace CRUD_Operations_PostGresSQl.Controllers
         [ValidateModel]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
-            var identityUser = new IdentityUser
+            try
             {
-                UserName = registerRequestDto.UserName,
-                Email = registerRequestDto.UserName
-            };
-            var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
-
-            if (identityResult.Succeeded)
-            {
-                if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+                var identityUser = new IdentityUser
                 {
+                    UserName = registerRequestDto.UserName,
+                    Email = registerRequestDto.UserName
+                };
+                var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
 
-                    identityResult = await userManager.AddToRoleAsync(identityUser, registerRequestDto.Roles);
-
-
-                    if (identityResult.Succeeded)
+                if (identityResult.Succeeded)
+                {
+                    if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
                     {
-                        return Ok("User Created Successfuly");
+
+                        identityResult = await userManager.AddToRoleAsync(identityUser, registerRequestDto.Roles);
+
+
+                        if (identityResult.Succeeded)
+                        {
+                            return Ok("User Created Successfuly");
+                        }
                     }
                 }
+                return BadRequest("Something went wrong");
             }
-            return BadRequest("Something went wrong");
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
         }
 
-
+        //method /api/Auth/Login
         [HttpPost]
         [Route("Login")]
         [ValidateModel]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
         {
-            var user = await userManager.FindByEmailAsync(loginRequestDto.UserName);
-            if (user != null)
+            try
             {
-                var checkPasswordResult = await userManager.CheckPasswordAsync(user, loginRequestDto.Password);
-
-                if (checkPasswordResult)
+                var user = await userManager.FindByEmailAsync(loginRequestDto.UserName);
+                if (user != null)
                 {
-                    var Roles = await userManager.GetRolesAsync(user);
+                    var checkPasswordResult = await userManager.CheckPasswordAsync(user, loginRequestDto.Password);
 
-                    if (Roles != null)
+                    if (checkPasswordResult)
                     {
-                        var claims = new List<Claim>
+                        var Roles = await userManager.GetRolesAsync(user);
+
+                        if (Roles != null)
+                        {
+                            var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, user.UserName),
                             new Claim(ClaimTypes.Email, user.UserName),
-                            new Claim(ClaimTypes.Role,Roles[0])
+                            new Claim(ClaimTypes.Role,Roles[0]),
+                            new Claim(ClaimTypes.NameIdentifier, user.Id),
                         };
 
-                        var claimsIdentity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                        await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(claimsIdentity));
+                            await HttpContext.SignInAsync(
+                                CookieAuthenticationDefaults.AuthenticationScheme,
+                                new ClaimsPrincipal(claimsIdentity));
 
-                        return Ok(new
-                        {
-                            loginRequestDto.UserName,
-                            Role = Roles[0]
-                        });
+                            return Ok(new
+                            {
+                                loginRequestDto.UserName,
+                                Role = Roles[0],
+                            });
+                        }
                     }
                 }
+                return Unauthorized();
             }
-            return Unauthorized();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //method /api/Auth/Logout
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Ok(new { Message = "You are logged out" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

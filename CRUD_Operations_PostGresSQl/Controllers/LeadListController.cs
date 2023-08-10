@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace CRUD_Operations_PostGresSQl.Controllers
 {
@@ -25,22 +28,31 @@ namespace CRUD_Operations_PostGresSQl.Controllers
         private readonly CrudDbContext crudDbContext;
         private readonly IMapper mapper;
         private readonly ILeadListRepository leadList;
+        private readonly UserManager<IdentityUser> userManager;
 
         public LeadListController(
             CrudDbContext crudDbContext,
             IMapper mapper,
-            ILeadListRepository leadList)
+            ILeadListRepository leadList,
+            UserManager<IdentityUser> userManager)
         {
             this.crudDbContext = crudDbContext;
             this.mapper = mapper;
             this.leadList = leadList;
+            this.userManager = userManager;
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateModel]
-        public async Task<IActionResult> CreateLead(AddLeadListDto addLeadListDto)
+        public async Task<IActionResult> CreateLead([FromBody] AddLeadListDto addLeadListDto)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null)
+            {
+                addLeadListDto.LeadCreatedBy = userIdClaim.Value;
+            }
+            addLeadListDto.LeadCreatedDate = DateTime.UtcNow;
             try
             {
                 var LeadListDomain = mapper.Map<LeadList>(addLeadListDto);
@@ -113,9 +125,20 @@ namespace CRUD_Operations_PostGresSQl.Controllers
         [Route("{id:Guid}")]
         [Authorize(Roles = "Admin")]
         [ValidateModel]
-        public async Task<IActionResult> PatchLeads([FromRoute] Guid id, JsonPatchDocument addLeadListDto)
+        public async Task<IActionResult> PatchLeads([FromRoute] Guid id, JsonPatchDocument updateLeadListDto)
         {
-            var LeadDomain = await leadList.PatchLeadsAsync(id, addLeadListDto);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = userIdClaim.Value;
+
+            var operation1 = new Operation<UpdateLeadListDto>(
+                            "replace", "/LeadUpdatedBy", from: null, value: userId);
+            
+            var operation2 = new Operation<UpdateLeadListDto>(
+                            "replace", "/LeadUpdatedDate", from: null, value: DateTime.UtcNow);
+
+            updateLeadListDto.Operations.Add(operation1);
+            updateLeadListDto.Operations.Add(operation2);
+            var LeadDomain = await leadList.PatchLeadsAsync(id, updateLeadListDto);
 
             if (LeadDomain == null)
             {
@@ -142,9 +165,16 @@ namespace CRUD_Operations_PostGresSQl.Controllers
         [Route("{id:Guid}")]
         [Authorize(Roles = "Admin")]
         [ValidateModel]
-        public async Task<IActionResult> UpdateLeads([FromRoute] Guid id, AddLeadListDto addLeadListDto)
+        public async Task<IActionResult> UpdateLeads([FromRoute] Guid id, UpdateLeadListDto updateLeadListDto)
         {
-            var leadDomain = mapper.Map<LeadList>(addLeadListDto);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null)
+            {
+                updateLeadListDto.LeadUpdatedBy = userIdClaim.Value;
+            }
+            updateLeadListDto.LeadUpdatedDate = DateTime.UtcNow;
+
+            var leadDomain = mapper.Map<LeadList>(updateLeadListDto);
             leadDomain = await leadList.UpdateLeadsAsync(id, leadDomain);
             if (leadDomain == null)
             {

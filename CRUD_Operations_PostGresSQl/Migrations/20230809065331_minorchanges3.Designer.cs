@@ -3,6 +3,7 @@ using System;
 using CRUD_Operations_PostGresSQl.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRUD_Operations_PostGresSQl.Migrations
 {
     [DbContext(typeof(CrudDbContext))]
-    partial class CrudDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230809065331_minorchanges3")]
+    partial class minorchanges3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,11 +71,11 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.ApplicantsCreateEntry", b =>
                 {
-                    b.Property<Guid>("ApplicantId")
+                    b.Property<Guid>("ApplicantID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AplicantBranch")
+                    b.Property<string>("ApllicantBranch")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -84,19 +87,11 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ApplicantCreateBy")
+                    b.Property<string>("ApplicantCustomerName")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("ApplicantCreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ApplicantFirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ApplicantLastName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<DateOnly>("ApplicantDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("ApplicantLevel")
                         .HasColumnType("text");
@@ -104,7 +99,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                     b.Property<bool>("ApplicantMarkedForReview")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ApplicantMiddleName")
+                    b.Property<string>("ApplicantNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -120,18 +115,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ApplicantUpdateBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("ApplicantUpdateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("LeadRefId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ApplicantId");
-
-                    b.HasIndex("LeadRefId");
+                    b.HasKey("ApplicantID");
 
                     b.ToTable("ApplicantsCreateEntries");
                 });
@@ -286,9 +270,10 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LeadCreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("LeadCreatedDate")
+                    b.Property<DateTime>("LeadCreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LeadEmail")
@@ -323,9 +308,10 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LeadUpdatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("LeadUpdatedDate")
+                    b.Property<DateTime>("LeadUpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("LeadId");
@@ -426,17 +412,6 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.ApplicantsCreateEntry", b =>
-                {
-                    b.HasOne("CRUD_Operations_PostGresSQl.Models.Domain.LeadList", "LeadList")
-                        .WithMany()
-                        .HasForeignKey("LeadRefId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LeadList");
                 });
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.EntitlementTable", b =>

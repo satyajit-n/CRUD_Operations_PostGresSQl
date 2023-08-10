@@ -62,7 +62,7 @@ internal class Program
                 {
                     OnSigningIn = context =>
                     {
-                        DateTime expirationDateTime = DateTime.UtcNow.AddMinutes(5);
+                        DateTime expirationDateTime = DateTime.UtcNow.AddMinutes(10);
                         // Set the expiration datetime for the cookie
                         context.CookieOptions.Expires = expirationDateTime;
 
@@ -80,6 +80,8 @@ internal class Program
         builder.Services.AddScoped<IUserRepository, PGUserRepository>();
 
         builder.Services.AddScoped<ILeadListRepository, PGLeadListRepository>();
+
+        builder.Services.AddScoped<IApplicantRepository, PGApplicantRepository>();
 
         var app = builder.Build();
 

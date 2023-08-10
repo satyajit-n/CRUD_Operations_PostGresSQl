@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CRUD_Operations_PostGresSQl.Models.Domain
+﻿namespace CRUD_Operations_PostGresSQl.Models.DTO
 {
-    public class ApplicantsCreateEntry
+    public class AddApplicantDto
     {
-        [Key]
-        public Guid ApplicantId { get; set; }
         public string AplicantBranch { get; set; }
         public string ApplicantFirstName { get; set; }
         public string ApplicantMiddleName { get; set; }
@@ -19,12 +14,7 @@ namespace CRUD_Operations_PostGresSQl.Models.Domain
         public string? ApplicantLevel { get; set; }
         public string? ApplicantCreateBy { get; set; }
         public DateTime? ApplicantCreateDate { get; set; }
-        public string? ApplicantUpdateBy { get; set; }
-        public DateTime? ApplicantUpdateDate { get; set; }
         public Boolean ApplicantMarkedForReview { get; set; }
-
-        [ForeignKey("LeadList")]
         public Guid LeadRefId { get; set; }
-        public LeadList LeadList { get; set; }
     }
 }

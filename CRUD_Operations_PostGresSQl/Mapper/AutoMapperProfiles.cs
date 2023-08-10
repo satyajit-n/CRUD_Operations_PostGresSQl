@@ -15,6 +15,12 @@ namespace CRUD_Operations_PostGresSQl.Mapper
             //LeadList Mapper
             CreateMap<LeadList, LeadListDto>().ReverseMap();
             CreateMap<AddLeadListDto, LeadList>().ReverseMap();
+            CreateMap<UpdateLeadListDto, LeadList>().ReverseMap();
+
+            //Applicants Create Mapper
+            CreateMap<ApplicantsCreateEntry,ApplicantsDto>().ReverseMap();
+            CreateMap<AddApplicantDto,ApplicantsCreateEntry>().ReverseMap();
+            CreateMap<UpdateApplicantDto, ApplicantsCreateEntry>().ReverseMap();
         }
     }
 }

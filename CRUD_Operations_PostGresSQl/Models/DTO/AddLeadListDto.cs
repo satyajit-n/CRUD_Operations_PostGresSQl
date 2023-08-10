@@ -25,10 +25,8 @@ namespace CRUD_Operations_PostGresSQl.Models.DTO
         public string LeadProductType { get; set; }
         [Required]
         public string LeadAssignedTo { get; set; }
-        [Required]
-        public string LeadCreatedBy { get; set; }
-        [Required]
-        public DateOnly LeadCreatedDate { get; set; }
+        public string? LeadCreatedBy { get; set; }
+        public DateTime? LeadCreatedDate { get; set; }
         [Required]
         public string LeadStatus { get; set; }
         [Required]

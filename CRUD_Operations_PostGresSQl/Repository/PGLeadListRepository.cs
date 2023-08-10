@@ -8,6 +8,7 @@ using System.Linq.Dynamic.Core.Exceptions;
 using System.Linq.Expressions;
 using System.Reflection;
 
+
 namespace CRUD_Operations_PostGresSQl.Repository
 {
     public class PGLeadListRepository : ILeadListRepository
@@ -45,16 +46,16 @@ namespace CRUD_Operations_PostGresSQl.Repository
                 if (property != null)
                 {
                     //Filtering -  creating neccessary elements to build lambda expression
-                    var propertyAccess = Expression.Property(parameter, property); // x.Name
+                    var propertyAccess = Expression.Property(parameter, property); // x.LeadFirstName
 
                     var constantQuery = Expression.Constant(filterQuery, typeof(string)); // extracting filterquery
 
                     var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) }); // get contains method
 
-                    var containsExpression = Expression.Call(propertyAccess, containsMethod, constantQuery);
+                    var containsExpression = Expression.Call(propertyAccess, containsMethod, constantQuery);//x.LeadFirstName.Contains("c")
 
-                    //compile all expresion using the AndAlso method and logical AND
-                    var predicate = Expression.Lambda<Func<LeadList, bool>>(containsExpression, parameter);
+                    //compile all expresion
+                    var predicate = Expression.Lambda<Func<LeadList, bool>>(containsExpression, parameter);//x => x.LeadFirstName.Contains("c")
 
                     //Sorting - creating neccessary elements to build lambda expression
                     sortBy = sortBy.ToLower();
@@ -66,7 +67,7 @@ namespace CRUD_Operations_PostGresSQl.Repository
                     {
                         leadLists = crudDbContext.Leads.AsQueryable()
                             .OrderBy(sortExpression)
-                            .Where(predicate.Compile())
+                            .Where(predicate.Compile()) //x => x.Name.Contains(filterQuery)
                             .Skip(skipResults).Take(pageSize).ToList();
                         goto Final;
                     }
@@ -101,6 +102,7 @@ namespace CRUD_Operations_PostGresSQl.Repository
         public async Task<LeadList?> PatchLeadsAsync(Guid id, JsonPatchDocument leadList)
         {
             var existingLead = await crudDbContext.Leads.FirstOrDefaultAsync(x => x.LeadId == id);
+
             if (existingLead == null)
             {
                 return null;
@@ -140,8 +142,8 @@ namespace CRUD_Operations_PostGresSQl.Repository
             exsistingLead.LeadLoanType = leadList.LeadLoanType;
             exsistingLead.LeadProductType = leadList.LeadProductType;
             exsistingLead.LeadAssignedTo = leadList.LeadAssignedTo;
-            exsistingLead.LeadCreatedBy = leadList.LeadCreatedBy;
-            exsistingLead.LeadCreatedDate = leadList.LeadCreatedDate;
+            exsistingLead.LeadUpdatedDate = leadList.LeadUpdatedDate;
+            exsistingLead.LeadUpdatedBy = leadList.LeadUpdatedBy;
             exsistingLead.LeadStatus = leadList.LeadStatus;
             exsistingLead.LeadMarkedForReview = leadList.LeadMarkedForReview;
 

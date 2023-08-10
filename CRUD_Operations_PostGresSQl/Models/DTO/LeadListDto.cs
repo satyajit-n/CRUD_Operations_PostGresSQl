@@ -11,8 +11,10 @@
         public string LeadLoanType { get; set; }
         public string LeadProductType { get; set; }
         public string LeadAssignedTo { get; set; }
-        public string LeadCreatedBy { get; set; }
-        public DateOnly LeadCreatedDate { get; set; }
+        public string? LeadCreatedBy { get; set; }
+        public DateTime? LeadCreatedDate { get; set; }
+        public string? LeadUpdatedBy { get; set; }
+        public DateTime? LeadUpdatedDate { get; set; }
         public string LeadStatus { get; set; }
         public Boolean LeadMarkedForReview { get; set; }
     }

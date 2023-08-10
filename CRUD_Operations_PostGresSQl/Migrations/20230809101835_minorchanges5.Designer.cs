@@ -3,6 +3,7 @@ using System;
 using CRUD_Operations_PostGresSQl.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRUD_Operations_PostGresSQl.Migrations
 {
     [DbContext(typeof(CrudDbContext))]
-    partial class CrudDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230809101835_minorchanges5")]
+    partial class minorchanges5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,11 +71,11 @@ namespace CRUD_Operations_PostGresSQl.Migrations
 
             modelBuilder.Entity("CRUD_Operations_PostGresSQl.Models.Domain.ApplicantsCreateEntry", b =>
                 {
-                    b.Property<Guid>("ApplicantId")
+                    b.Property<Guid>("ApplicantID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AplicantBranch")
+                    b.Property<string>("ApllicantBranch")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -129,7 +132,7 @@ namespace CRUD_Operations_PostGresSQl.Migrations
                     b.Property<Guid>("LeadRefId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ApplicantId");
+                    b.HasKey("ApplicantID");
 
                     b.HasIndex("LeadRefId");
 
