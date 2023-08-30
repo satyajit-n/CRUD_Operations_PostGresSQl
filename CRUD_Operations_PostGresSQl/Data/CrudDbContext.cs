@@ -1,6 +1,4 @@
 ﻿using CRUD_Operations_PostGresSQl.Models.Domain;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRUD_Operations_PostGresSQl.Data

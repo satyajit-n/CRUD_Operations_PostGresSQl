@@ -5,14 +5,14 @@ using CRUD_Operations_PostGresSQl.Models.Domain;
 using CRUD_Operations_PostGresSQl.Models.DTO;
 using CRUD_Operations_PostGresSQl.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Text.RegularExpressions;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.JsonPatch.Operations;
+using System.Text.RegularExpressions;
 
 namespace CRUD_Operations_PostGresSQl.Controllers
 {
@@ -43,7 +43,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ValidateModel]
         public async Task<IActionResult> CreateLead([FromBody] AddLeadListDto addLeadListDto)
         {
@@ -69,7 +69,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Manager")]
+        //[Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetAllLeadList(
             [FromQuery] string? filterOn,
             [FromQuery] string? filterQuery,
@@ -123,7 +123,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
 
         [HttpPatch]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ValidateModel]
         public async Task<IActionResult> PatchLeads([FromRoute] Guid id, JsonPatchDocument updateLeadListDto)
         {
@@ -132,7 +132,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
 
             var operation1 = new Operation<UpdateLeadListDto>(
                             "replace", "/LeadUpdatedBy", from: null, value: userId);
-            
+
             var operation2 = new Operation<UpdateLeadListDto>(
                             "replace", "/LeadUpdatedDate", from: null, value: DateTime.UtcNow);
 
@@ -150,7 +150,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteLeads([FromRoute] Guid id)
         {
             var LeadDomainmodel = await leadList.DeleteLeadsAsync(id);
@@ -163,7 +163,7 @@ namespace CRUD_Operations_PostGresSQl.Controllers
 
         [HttpPut]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ValidateModel]
         public async Task<IActionResult> UpdateLeads([FromRoute] Guid id, UpdateLeadListDto updateLeadListDto)
         {
